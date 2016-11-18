@@ -66,26 +66,35 @@ app.post('/items', jsonParser, function(req, res) {
         return res.sendStatus(400);
     }
 
+
+    if (idExists(req.params.id)) {
+      return res.sendStatus(400);
+    }
+
     var item = storage.add(req.body.name);
     res.status(201).json(item);
 });
 
 app.put('/items/:id', jsonParser, function(req, res) {
     if (!req.body) {
+        console.log('No body!');
         return res.sendStatus(400);
     }
 
     if (req.params.id != req.body.id) {
+      console.log('No match!');
       return res.sendStatus(404);
     }
 
     if (!idExists(req.params.id)) {
-      storage.add(req.params.id, req.body.name);
+      let itemAdd = storage.add(req.params.id, req.body.name);
+      return res.status(200).json(itemAdd);
     }
 
     var item = storage.edit(req.params.id, req.body.name);
     if (!item) {
-        return res.sendStatus(404);
+      console.log('No item!');
+      return res.sendStatus(404);
     }
 
     res.status(200).json(item);
