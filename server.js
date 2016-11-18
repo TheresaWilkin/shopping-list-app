@@ -47,7 +47,7 @@ app.use(express.static('public'));
 var jsonParser = bodyParser.json();
 
 app.get('/items', function(req, res) {
-    res.json(items.items);
+    res.json(storage.items);
 });
 
 app.post('/items', jsonParser, function(req, res) {
@@ -55,7 +55,7 @@ app.post('/items', jsonParser, function(req, res) {
         return res.sendStatus(400);
     }
 
-    var item = items.add(req.body.name);
+    var item = storage.add(req.body.name);
     res.status(201).json(item);
 });
 
@@ -64,7 +64,7 @@ app.put('/items/:id', jsonParser, function(req, res) {
         return res.sendStatus(400);
     }
 
-    var item = items.edit(req.params.id, req.body.name);
+    var item = storage.edit(req.params.id, req.body.name);
     if (!item) {
         return res.sendStatus(404);
     }
@@ -72,7 +72,7 @@ app.put('/items/:id', jsonParser, function(req, res) {
 });
 
 app.delete('/items/:id', function(req, res) {
-    var item = items.delete(req.params.id);
+    var item = storage.delete(req.params.id);
     if (!item) {
         return res.sendStatus(404);
     }
@@ -82,3 +82,6 @@ app.delete('/items/:id', function(req, res) {
 app.listen(process.env.PORT || 8080);
 
 //exports go here
+
+exports.app = app;
+exports.storage = storage;

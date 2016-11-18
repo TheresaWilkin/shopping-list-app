@@ -12,5 +12,9 @@
     "body-parser": "^1.12.2",
     "express": "^4.12.3",
     "http-server": "^0.7.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0"
   }
 }
