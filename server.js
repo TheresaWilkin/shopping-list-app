@@ -28,6 +28,17 @@ var Storage = {
   }
 };
 
+const idExists = (id) => {
+  var idExist = false;
+  for (var i=0; i<storage.items.length; i++) {
+        var item = storage.items[i];
+        if (id == item.id) {
+            idExist = true;
+        }
+    }
+    return idExist;
+}
+
 var createStorage = function() {
   var storage = Object.create(Storage);
   storage.items = [];
@@ -64,17 +75,26 @@ app.put('/items/:id', jsonParser, function(req, res) {
         return res.sendStatus(400);
     }
 
+    if (req.params.id != req.body.id) {
+      return res.sendStatus(404);
+    }
+
+    if (!idExists(req.params.id)) {
+      storage.add(req.params.id, req.body.name);
+    }
+
     var item = storage.edit(req.params.id, req.body.name);
     if (!item) {
         return res.sendStatus(404);
     }
+
     res.status(200).json(item);
 });
 
 app.delete('/items/:id', function(req, res) {
     var item = storage.delete(req.params.id);
     if (!item) {
-        return res.sendStatus(404);
+        return res.status(404).json(item);
     }
     res.status(200).json(item);
 });

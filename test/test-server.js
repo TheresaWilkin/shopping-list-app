@@ -100,7 +100,7 @@ describe('Shopping List', function() {
             });
     });
 
-});
+
     it('should return a 404 when empty body sent for post', function(done){
         chai.request(app)
             .post('/items/5')
@@ -110,11 +110,49 @@ describe('Shopping List', function() {
                 done();
             });
     });
+
+    it('should return a 404 when empty body sent for put', function(done){
+        chai.request(app)
+            .put('/items/5')
+            .send('')
+            .end(function(err, res) {
+              res.should.have.status(404);
+                done();
+            });
+    });
+
+    it ('should post a new item when put is called on a nonexistent id', function(done) {
+        chai.request(app)
+            .put('/items/900')
+            .send({'name': 'soup', 'id': '900'})
+            .end(function(err, red) {
+                should.equal(err, null);
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.should.be.a('array');
+                done();
+            })
+        done();
+    });
+
+    it ('should return status 404 if the params.id and body.id don\'t match in a put', function(done){
+        chai.request(app)
+            .post('/items/2')
+            .send({'name': 'cake', 'id': '1'})
+            .end(function(err, res){
+                res.should.have.status(404);
+                done();
+            })
+    });
+
     it('should return a 404 when user tries to delete an item that doesn\'t exist', function(done){
         chai.request(app)
             .delete('/items/999')
             .end(function(err, res){
                 res.should.have.status(404);
+                res.should.be.json;
                     done();
             });
     });
+});
+

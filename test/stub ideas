@@ -1,12 +1,14 @@
 POST to an ID that exists
 POST without body data
 POST with something other than valid JSON
-PUT without an ID in the endpoint
-PUT with different ID in the endpoint than the body
-PUT to an ID that doesn't exist
-PUT without body data
-PUT with something other than valid JSON
-DELETE an ID that doesn't exist
-DELETE without an ID in the endpoint
-test mispellings?
-this is a test
+
+
+*Create an endpoint that responds to a DELETE request to /items/:id
+*If the item is succesfully deleted, the server should respond with a 200 OK status
+*If an incorrect ID is supplied, your endpoint should fail gracefully, returning a 404 Not Found status and a JSON error message. 
+
+*Create an endpoint that responds to a PUT request to /items/:id
+*If the item is edited, the server should respond with a 200 OK status and the new item
+!If the request is incorrectly formed (bad body, missing id), the request should fail gracefully
+!If a non-existent ID is supplied, your endpoint should create a new item using the ID supplied.
+!request.params and the request.body ids don't match sends error
