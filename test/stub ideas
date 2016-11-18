@@ -1,0 +1,11 @@
+POST to an ID that exists
+POST without body data
+POST with something other than valid JSON
+PUT without an ID in the endpoint
+PUT with different ID in the endpoint than the body
+PUT to an ID that doesn't exist
+PUT without body data
+PUT with something other than valid JSON
+DELETE an ID that doesn't exist
+DELETE without an ID in the endpoint
+test mispellings?

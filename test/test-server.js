@@ -68,7 +68,7 @@ describe('Shopping List', function() {
     			res.body.should.have.property('name');
     			res.body.should.have.property('id');
     			res.body.name.should.be.a('string');
-    			res.body.id.should.a('number');
+    			res.body.id.should.be.a('number');
     			res.body.name.should.equal('Pizza');
     			storage.items.should.have.length(4);
     			storage.items[1].should.be.a('object');
@@ -80,16 +80,41 @@ describe('Shopping List', function() {
     			done();
     		});
     });
-	
-	it('should return an error when no body sent for post', function(done){
-		chai.request(app)
-    		.post('/items/5')
-    		.send('this is not an object')
-    		.end(function(err, res) {
-    		  res.should.have.status(404);
+    it('should delete an item on delete', function(done){
+        chai.request(app)
+            .delete('/items/1')
+            .end(function(err, res){
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.have.property('name');
+                res.body.should.have.property('id');
+                res.body.name.should.be.a('string');
+                res.body.id.should.be.a('number');
+                storage.items[0].should.be.a('object');
+                storage.items[0].should.have.property('id');
+                storage.items[0].should.have.property('name');
+                storage.items[0].id.should.be.a('number');
+                storage.items[0].name.should.be.a('string');
                 done();
-    		});
+            });
     });
-    
-    it('should delete an item on delete');
+
 });
+    it('should return a 404 when empty body sent for post', function(done){
+        chai.request(app)
+            .post('/items/5')
+            .send('')
+            .end(function(err, res) {
+              res.should.have.status(404);
+                done();
+            });
+    });
+    it('should return a 404 when user tries to delete an item that doesn\'t exist', function(done){
+        chai.request(app)
+            .delete('/items/999')
+            .end(function(err, res){
+                res.should.have.status(404);
+                    done();
+            });
+    });
