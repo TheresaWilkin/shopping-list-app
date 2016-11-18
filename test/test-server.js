@@ -81,12 +81,13 @@ describe('Shopping List', function() {
     		});
     });
 	
-	it('should return an error when no body sent for put', function(done){
+	it('should return an error when no body sent for post', function(done){
 		chai.request(app)
-    		.put('/items/2')
-    		.send()
+    		.post('/items/5')
+    		.send('this is not an object')
     		.end(function(err, res) {
-    			res.should.have.status(400);
+    		  res.should.have.status(404);
+                done();
     		});
     });
     
